@@ -4,10 +4,39 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
 use App\Post;
 
 class PostController extends Controller
 {
+    private $postValidationArray = [
+        'title' => 'required|max:255',
+        'content' => 'required',
+        'category_id' => 'nullable|exists:categories,id',
+        'tags' => 'exists:tags,id'
+    ];
+
+    private function generateSlug($data) {
+        $slug = Str::slug($data["title"], '-'); // titolo-articolo-3
+
+        $existingPost = Post::where('slug', $slug)->first();
+        // dd($existingPost);
+
+        $slugBase = $slug;
+        $counter = 1;
+
+        while($existingPost) {
+            // blocco di istruzioni
+            $slug = $slugBase . "-" . $counter;
+
+            // istruzioni per terminare il ciclo
+            $existingPost = Post::where('slug', $slug)->first(); // titolo-articolo-3-2
+            $counter++;
+        }
+
+        return $slug;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +55,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.posts.create');
     }
 
     /**
@@ -37,8 +66,26 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $request->validate($this->postValidationArray);
+
+       
+        $newPost = new Post();
+
+        $slug = $this->generateSlug($data);
+  
+        $data['slug'] = $slug;
+        $newPost->fill($data);
+
+        $newPost->save();
+
+        if(array_key_exists('tags', $data)) {
+            $newPost->tags()->attach($data["tags"]);
+        }
+
+        return redirect()->route('admin.posts.show', $newPost->id);
     }
+
 
     /**
      * Display the specified resource.
@@ -60,7 +107,7 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        
     }
 
     /**
