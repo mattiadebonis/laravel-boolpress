@@ -105,9 +105,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        
+        return view('admin.posts.edit', compact('post'));
     }
 
     /**
@@ -117,9 +117,25 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        
+        $data = $request->all();
+        
+        $request->validate($this->postValidationArray);
+
+        if($post->title != $data["title"]) {
+            $slug = $this->generateSlug($data);
+            $data["slug"] = $slug;
+        }
+
+        $post->update($data);
+        if(array_key_exists('tags', $data)) {
+            $post->tags()->sync($data["tags"]);
+        }
+
+        return redirect()->route('admin.posts.show', $post->id);
+
     }
 
     /**
@@ -128,8 +144,11 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+       $post->delete();
+       return redirect()
+        ->route('admin.posts.index')
+        ->with('deleted', $post->title);
     }
 }
