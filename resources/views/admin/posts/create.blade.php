@@ -26,10 +26,15 @@
                     <option value="">Seleziona una categoria</option>
 
                     @foreach($categories as $category)
-                        <option value="{{$category->id}}">{{$category->name}}</option>
+                        <option value="{{$category->id}}"
+                        {{ ($category->id == old('category_id')) ? 'selected' : ''}}> {{$category->name}}
+                        >{{$category->name}}</option>
 
                     @endforeach
                 </select>
+                @error('content')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
             <button tyoe="submit" class="btn btn-primary">Salva</button>
 

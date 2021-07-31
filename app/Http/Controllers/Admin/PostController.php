@@ -19,16 +19,15 @@ class PostController extends Controller
     ];
 
     private function generateSlug($data) {
-        $slug = Str::slug($data["title"], '-'); // titolo-articolo-3
+        $slug = Str::slug($data["title"], '-'); 
 
         $existingPost = Post::where('slug', $slug)->first();
-        // dd($existingPost);
 
         $slugBase = $slug;
         $counter = 1;
 
         while($existingPost) {
-            // blocco di istruzioni
+            
             $slug = $slugBase . "-" . $counter;
 
             // istruzioni per terminare il ciclo
@@ -70,8 +69,6 @@ class PostController extends Controller
     {
         $data = $request->all();
         $request->validate($this->postValidationArray);
-
-       
         $newPost = new Post();
 
         $slug = $this->generateSlug($data);
@@ -97,7 +94,6 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-
         return view('admin.posts.show', compact('post'));
     }
 
@@ -109,7 +105,9 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('admin.posts.edit', compact('post'));
+        $categories = Category::all();
+
+        return view('admin.posts.edit', compact('post', 'categories'));
     }
 
     /**
@@ -135,6 +133,7 @@ class PostController extends Controller
         if(array_key_exists('tags', $data)) {
             $post->tags()->sync($data["tags"]);
         }
+        $post->update($data);
 
         return redirect()->route('admin.posts.show', $post->id);
 
