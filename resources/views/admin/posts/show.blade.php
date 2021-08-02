@@ -12,6 +12,17 @@
         <small>{{$post->slug}}</small>
         <div class="mt-4">{{$post->content}}</div>
         
+        @if (count($post->tags) > 0)
+            <div class="mt-3 h4">
+                @foreach ($post->tags as $tag)
+                    <span class="badge badge-pill badge-dark">{{ $tag->name }}</span>    
+                @endforeach
+            </div>
+        @else
+            <h5 class="mt-3">Nessun tag collegato</h5>    
+        @endif
+
+    
     </div>
 
 @endsection

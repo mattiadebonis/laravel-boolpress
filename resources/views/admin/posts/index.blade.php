@@ -18,12 +18,17 @@
                     <td><a class="btn btn-success" href="{{route('admin.posts.show', $item->id)}}">SHOW</a></td>
                     <td><a class="btn btn-primary" href="{{route('admin.posts.edit', $item->id)}}">EDIT</a></td>
                     <td>
-                            <form action="{{ route('admin.posts.destroy', $item->id) }}" method="POST" onSubmit="return confirm('Sei sicuro di voler eliminare questo articolo?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">DELETE</button>
-                            </form>
-                        </td>
+                        <form action="{{ route('admin.posts.destroy', $item->id) }}" method="POST" onSubmit="return confirm('Sei sicuro di voler eliminare questo articolo?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">DELETE</button>
+                        </form>
+                    </td>
+                    <td>
+                        @foreach ($item->tags as $tag)
+                            <span class="badge badge-pill badge-dark">{{ $tag->name }}</span>
+                        @endforeach
+                    </td>
                 </tr>
                 @endforeach
             
