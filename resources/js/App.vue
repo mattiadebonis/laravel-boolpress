@@ -9,7 +9,11 @@
                 v-for="post in posts"
                 :key="post.id"
             >
-            <h5>a {{post.title}}</h5>
+            <div class="card">
+                <h5>{{post.title}}</h5>
+                <p>{{post.content}}</p>
+            </div>
+                
             </div>
         </main>
     </div>
@@ -25,16 +29,19 @@ export default {
             posts: []
         }
     },
+    methods:{
+
+    },
     components:{
         Header
     },
     created: function(){
         axios
-            .get('http://127.0.0.1:8003/api/post')
+            .get('http://127.0.0.1:8003/api/posts')
             .then(
                 res=>{
-                    console.log(res.data);
-                    this.posts = res.data;
+                    console.log(res.data)
+                    this.posts = res.data.posts;
                 }
 
             )

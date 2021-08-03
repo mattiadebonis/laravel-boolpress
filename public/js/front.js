@@ -1927,6 +1927,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'App',
@@ -1935,15 +1939,16 @@ __webpack_require__.r(__webpack_exports__);
       posts: []
     };
   },
+  methods: {},
   components: {
     Header: _components_Header_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   created: function created() {
     var _this = this;
 
-    axios.get('http://127.0.0.1:8003/api/post').then(function (res) {
+    axios.get('http://127.0.0.1:8003/api/posts').then(function (res) {
       console.log(res.data);
-      _this.posts = res.data;
+      _this.posts = res.data.posts;
     })["catch"](function (err) {
       console.log(err);
     });
@@ -2472,7 +2477,13 @@ var render = function() {
             return _c(
               "div",
               { key: post.id, staticClass: "col-4 my-3 d-flex" },
-              [_c("h5", [_vm._v("a " + _vm._s(post.title))])]
+              [
+                _c("div", { staticClass: "card" }, [
+                  _c("h5", [_vm._v(_vm._s(post.title))]),
+                  _vm._v(" "),
+                  _c("p", [_vm._v(_vm._s(post.content))])
+                ])
+              ]
             )
           })
         ],
