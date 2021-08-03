@@ -8,7 +8,8 @@
                 
                 <p>Guest</p>
 
-
+                <div id="root"></div>
+                <script src="{{asset('js/front.js')}}"></script>
             </div>
         </div>
     </div>
