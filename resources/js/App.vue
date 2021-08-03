@@ -5,16 +5,15 @@
         <main>
 
             <h1>Il mio blog</h1>
-            <div class="col-4 my-3 d-flex"
+            <Card class="col-4 my-3 d-flex"
                 v-for="post in posts"
                 :key="post.id"
-            >
-            <div class="card">
-                <h5>{{post.title}}</h5>
-                <p>{{post.content}}</p>
-            </div>
+                :item="post"
+            />
+        
+            
                 
-            </div>
+            
         </main>
     </div>
 </template>
@@ -22,6 +21,8 @@
 
 <script>
 import Header from "./components/Header.vue";
+import Card from "./components/Card.vue";
+
 export default {
     name: 'App',
     data: function(){
@@ -33,7 +34,8 @@ export default {
 
     },
     components:{
-        Header
+        Header,
+        Card
     },
     created: function(){
         axios
