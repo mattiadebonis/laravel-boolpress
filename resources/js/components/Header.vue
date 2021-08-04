@@ -15,5 +15,9 @@ export default {
 </script>
 
 <style>
-
+    li{
+        display: inline-block;
+        list-style: none;
+        padding: 15px;
+    }
 </style>

@@ -1,12 +1,12 @@
 <template>
-    <div>Blog
+    <div>
 
         <h1>Il mio blog</h1>
-            <Card class="col-4 my-3 d-flex"
-                v-for="post in posts"
-                :key="post.id"
-                :item="post"
-            />
+        <Card class="col-4 my-3 d-flex"
+            v-for="post in posts"
+            :key="post.id"
+            :item="post"
+        />
     </div>
 </template>
 
