@@ -6,6 +6,8 @@
                 <h4 class="card-title">{{ item.title }}</h4>
                 <p>{{ item.content }}</p>  
                 
+                <router-link :to="{ name: 'single-post', params: { slug: item.slug } }">Leggi</router-link>
+
             </div>
         </div>       
     </div>
